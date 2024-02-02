@@ -26,7 +26,7 @@ int main() {
     if (bind(serverSocket, reinterpret_cast<const sockaddr *>(&serverAddress), sizeof(serverAddress)) < 0) {
         throw runtime_error("Failed to bind socket");
     }
-    listen(serverSocket, 5);
+    listen(serverSocket, 0);
     cout << "Server listening on port " << PORT << endl;
 
     socklen_t clientAddressLength = sizeof(clientAddress);
