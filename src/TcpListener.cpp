@@ -33,7 +33,7 @@ namespace network {
         close(skt_fd_);
     }
 
-    void TcpListener::set_msg_handler(std::function<void (const uint8_t*, uint32_t)> handle) {
+    void TcpListener::set_msg_handler(std::function<void (const char*, uint16_t)> handle) {
         msg_handler_ = std::move(handle);
     }
 
@@ -58,6 +58,7 @@ namespace network {
                 continue;
             }
 
+            cout << "Client connected" << endl;
             ssize_t bytes_read;
             while ((bytes_read = recv(client_skt, buff_, BUFF_SZ, 0)) > 0) {
                 send(client_skt, buff_, bytes_read,0);
