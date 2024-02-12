@@ -31,6 +31,7 @@ namespace network {
     TcpListener::~TcpListener() {
         wait();
         close(skt_fd_);
+        cout << "TcpListener destructor" << endl;
     }
 
     void TcpListener::set_msg_handler(std::function<void (const char*, uint16_t)> handle) {
@@ -38,10 +39,12 @@ namespace network {
     }
 
     void TcpListener::wait() {
+        cout << "Server: waiting to shutdown" << endl;
         running_.clear();
         if (thrd_.joinable()) {
             thrd_.join();
         }
+        cout << "Server: finished shutdown" << endl;
     }
 
     void TcpListener::handler() {
@@ -49,7 +52,7 @@ namespace network {
         listen(skt_fd_, 0);
 
         while(running_.test_and_set()) {
-            cout << "Server listening on port " << port_ << endl;
+            cout << "Server: listening on port " << port_ << endl;
             sockaddr_in client_addr {};
             socklen_t addr_len = sizeof (client_addr);
             auto client_skt = accept(skt_fd_, reinterpret_cast<sockaddr *>(&client_addr), &addr_len);
@@ -58,22 +61,22 @@ namespace network {
                 continue;
             }
 
-            cout << "Client connected" << endl;
+            cout << "Server: Client connected" << endl;
             ssize_t bytes_read;
             while ((bytes_read = recv(client_skt, buff_, BUFF_SZ, 0)) > 0) {
                 send(client_skt, buff_, bytes_read,0);
-                cout << "Recvd and sent: " << bytes_read << " bytes" << endl;
+                cout << "Server: Recvd and sent: " << bytes_read << " bytes" << endl;
                 if (msg_handler_) msg_handler_(buff_, bytes_read);
             }
             close(client_skt);
             if (bytes_read < 0) {
-                cout << "ERR: problem receiving data" << endl << endl;
+                cout << "Server: ERR: problem receiving data" << endl << endl;
                 break;
             }
-            cout << "Client disconnected" << endl << endl;
+            cout << "Server: Client disconnected" << endl << endl;
         }
 
-        cout << "Server shutting down" << endl;
+        cout << "Server: shutting down" << endl;
     }
 
 }
