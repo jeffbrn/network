@@ -5,12 +5,23 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#include "TcpListener.h"
-#include "TcpClient.h"
+#include "network/TcpListener.h"
+#include "network/TcpClient.h"
+#include "task/periodic.h"
 
 using namespace std;
+using namespace std::chrono_literals;
 
 int main() {
+    cout << "Running" << endl;
+    task::Periodic p(100);
+    this_thread::sleep_for(4500ms);
+
+    cout << "Done" << endl;
+    return 0;
+}
+
+int amain() {
     cout << "Test Echo server" << endl << endl;
 
     network::TcpListener svr(5151);
