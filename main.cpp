@@ -12,9 +12,19 @@
 using namespace std;
 using namespace std::chrono_literals;
 
+class TestPeriodic : public task::Periodic {
+public:
+    explicit TestPeriodic(int period_ms) : task::Periodic(period_ms) {}
+
+protected:
+    virtual void job() override {
+        cout << "Run job" << endl;
+    }
+};
+
 int main() {
     cout << "Running" << endl;
-    task::Periodic p(100);
+    TestPeriodic p(100);
     this_thread::sleep_for(4500ms);
 
     cout << "Done" << endl;

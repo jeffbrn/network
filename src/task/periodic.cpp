@@ -23,12 +23,10 @@ namespace task {
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - last_);
             std::this_thread::sleep_for(duration - period_);
             if (duration >= period_) {
-                std::cout << "*** Triggered ***  " << duration.count() << std::endl;
                 job();
                 last_ = std::chrono::steady_clock::now();
             }
         }
-        cout << "Thread exit" << endl;
     }
 
 }

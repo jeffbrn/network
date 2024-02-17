@@ -4,7 +4,6 @@
 #include <thread>
 #include <atomic>
 #include <chrono>
-#include <iostream>
 
 namespace task {
 
