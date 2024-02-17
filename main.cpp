@@ -9,6 +9,8 @@
 #include "network/TcpClient.h"
 #include "task/periodic.h"
 
+#include "flatbuffers/flatbuffers.h"
+
 using namespace std;
 using namespace std::chrono_literals;
 

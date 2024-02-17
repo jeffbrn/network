@@ -1,0 +1,17 @@
+// For information see: https://flatbuffers.dev/flatbuffers_guide_writing_schema.html
+
+namespace messages;
+
+struct Vec3 {
+    x: float64;
+    y: float64;
+    z: float64;
+}
+
+table TestMsg {
+    id: uint64;
+    posn: Vec3;
+    name: string;
+    is_valid: bool;
+    buff:[uint8];
+}
