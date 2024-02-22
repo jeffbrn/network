@@ -10,7 +10,7 @@ include(FetchContent)
 # --------------------------------------------------------------------------------
 # Flatbuffers
 # --------------------------------------------------------------------------------
-find_package(flatbuffersa 23.5.26 EXACT CONFIG)
+find_package(flatbuffers 23.5.26 EXACT CONFIG)
 if (flatbuffers_FOUND)
     message("Using local installed flatbuffers")
 else ()

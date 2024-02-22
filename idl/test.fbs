@@ -15,3 +15,5 @@ table TestMsg {
     is_valid: bool;
     buff:[uint8];
 }
+
+root_type TestMsg;

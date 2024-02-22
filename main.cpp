@@ -9,7 +9,8 @@
 #include "network/TcpClient.h"
 #include "task/periodic.h"
 
-#include "flatbuffers/flatbuffers.h"
+//#include "flatbuffers/flatbuffers.h"
+#include "messages/test_msg_proxy.h"
 
 using namespace std;
 using namespace std::chrono_literals;
