@@ -26,6 +26,26 @@ protected:
 };
 
 int main() {
+    netw::messages::TstMsgProxy msg {
+        2,
+        {11,22,33},
+        "Test 2",
+        true,
+        {'a', 'b', 'c'}
+    };
+    cout << "Serialized object:" << endl;
+    cout << msg << endl;
+
+    flatbuffers::FlatBufferBuilder builder(1024);
+    netw::messages::TstMsgProxy::Serialize(builder, msg);
+    auto buf = builder.GetBufferPointer();
+    auto size = builder.GetSize();
+    auto r = netw::messages::TstMsgProxy::Deserialize(buf);
+
+    cout << endl << "Deserialized object:" << endl;
+    cout << r << endl;
+    return 0;
+
     cout << "Running" << endl;
     TestPeriodic p(100);
     this_thread::sleep_for(4500ms);

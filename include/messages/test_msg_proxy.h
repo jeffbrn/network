@@ -3,14 +3,20 @@
 
 #include <cstdint>
 #include <string>
+#include <utility>
 #include <vector>
 #include "test_generated.h"
+#include <iostream>
 
-namespace messages {
+namespace netw::messages {
 
     class TstMsgProxy {
     public:
         TstMsgProxy() = default;
+        TstMsgProxy(uint64_t id_, Vec3 posn_, std::string name_, bool valid_, std::vector<uint8_t> buff_) :
+            id{id_}, posn{posn_}, name{std::move(name_)}, is_valid{valid_}, buff{std::move(buff_)}
+        {}
+
         uint64_t id {0};
         Vec3 posn;
         std::string name;
@@ -21,14 +27,10 @@ namespace messages {
         static TstMsgProxy Deserialize(uint8_t*);
 
     private:
-        explicit TstMsgProxy(const TestMsg *o) {
-            id = o->id();
-            posn = *o->posn();
-            name = *o->name();
-            is_valid = o->is_valid();
-            std::copy(std::begin(*o->buff()), std::end(*o->buff()), std::begin(buff));
-        }
+        explicit TstMsgProxy(const TestMsg *o);
     };
+
+    std::ostream& operator<<(std::ostream& os, const TstMsgProxy& o);
 
 }
 
