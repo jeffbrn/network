@@ -9,11 +9,13 @@
 #include "network/TcpClient.h"
 #include "task/periodic.h"
 
-//#include "flatbuffers/flatbuffers.h"
 #include "messages/test_msg_proxy.h"
+#include "config/app_config.h"
+#include <unistd.h>
 
 using namespace std;
 using namespace std::chrono_literals;
+using namespace netw::config;
 
 class TestPeriodic : public task::Periodic {
 public:
@@ -26,6 +28,22 @@ protected:
 };
 
 int main() {
+    auto a = AppConfig::read_config();
+    cout << a << endl;
+    return 0;
+
+    char cwd[256];
+    if (getcwd(cwd, sizeof(cwd))) {
+        cout << "Current working dir: " << cwd << endl;
+    }
+
+    AppConfig config;
+    YAML::Emitter out;
+    out.SetOutputCharset(YAML::EscapeNonAscii);
+    out.SetIndent(4);
+    out << config;
+    cout << out.c_str() << endl;
+/*
     netw::messages::TstMsgProxy msg {
         2,
         {11,22,33},
@@ -49,7 +67,7 @@ int main() {
     cout << "Running" << endl;
     TestPeriodic p(100);
     this_thread::sleep_for(4500ms);
-
+*/
     cout << "Done" << endl;
     return 0;
 }

@@ -26,6 +26,24 @@ else ()
 endif ()
 
 # --------------------------------------------------------------------------------
+# YAML
+# --------------------------------------------------------------------------------
+find_package(yaml-cpp 0.8.0)
+if (yaml-cpp_FOUND)
+    message("Using local installed yaml-cpp")
+else ()
+    message("Yaml-cpp not found locally building from source")
+    FetchContent_Declare(
+            yaml-cpp
+            GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+            GIT_TAG 0.8.0 # Can be a tag (yaml-cpp-x.x.x), a commit hash, or a branch name (master)
+    )
+    FetchContent_GetProperties(yaml-cpp)
+    FetchContent_Populate(yaml-cpp)
+    add_subdirectory(${yaml-cpp_SOURCE_DIR} ${yaml-cpp_BINARY_DIR})
+endif ()
+
+# --------------------------------------------------------------------------------
 # Prepare local project
 # --------------------------------------------------------------------------------
 file(GLOB_RECURSE sources src/*.cpp)
@@ -35,4 +53,4 @@ add_executable(network main.cpp ${sources}
         main.cpp
 )
 target_include_directories(network PUBLIC include/)
-target_link_libraries(network PUBLIC flatbuffers::flatbuffers)
+target_link_libraries(network PUBLIC flatbuffers::flatbuffers yaml-cpp::yaml-cpp)

@@ -1,6 +1,6 @@
 // For information see: https://flatbuffers.dev/flatbuffers_guide_writing_schema.html
 
-namespace messages;
+namespace netw.messages;
 
 struct Vec3 {
     x: float64;
